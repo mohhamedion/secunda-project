@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->text('name');
-            $table->foreignId('parent_activity_id')->references('id')->on('activities');
+            $table->foreignId('parent_activity_id')->nullable()->references('id')->on('activities')->nullOnDelete();
             $table->timestamps();
         });
     }
