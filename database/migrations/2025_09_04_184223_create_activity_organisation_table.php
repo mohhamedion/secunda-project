@@ -17,7 +17,10 @@ return new class extends Migration
                 ->references('id')
                 ->on('organisations')
                 ->onDelete('cascade');
-            $table->foreignId('activity_id')->constrained();
+            $table->foreignId('activity_id')
+                ->references('id')
+                ->on('activities')
+                ->onDelete('cascade');
             $table->unique(['organisation_id', 'activity_id']);
         });
     }
