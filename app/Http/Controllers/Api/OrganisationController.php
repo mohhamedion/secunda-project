@@ -6,6 +6,7 @@ use App\Dto\Organisation\QueryFilter;
 use App\Http\Controllers\Controller;
 use App\Services\OrganisationService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 class OrganisationController extends Controller
 {
@@ -33,6 +34,21 @@ class OrganisationController extends Controller
     {
         $queryFilter = new QueryFilter();
         $queryFilter->activityId = $activityId;
+
+        return $this->organisationService->get($queryFilter);
+    }
+
+    /**
+     * @param Request $request
+     * @return Collection
+     */
+    public function getByRectangle(Request $request): Collection
+    {
+        $queryFilter = new QueryFilter();
+        $queryFilter->minLat = $request->input('min_lat');
+        $queryFilter->maxLat = $request->input('max_lat');
+        $queryFilter->minLong = $request->input('min_long');
+        $queryFilter->maxLong = $request->input('max_long');
 
         return $this->organisationService->get($queryFilter);
     }

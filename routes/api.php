@@ -18,5 +18,6 @@ Route::group(['prefix' => 'organisations'], function () {
 
     Route::get('by-building/{buildingId}', [OrganisationController::class, 'getByBuildingId']);
     Route::get('by-activity/{activityId}', [OrganisationController::class, 'getByActivityId']);
+    Route::get('by-rectangle', [OrganisationController::class, 'getByRectangle']);
 
 });
