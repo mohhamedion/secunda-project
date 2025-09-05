@@ -22,4 +22,15 @@ class OrganisationFactory extends Factory
             'building_id' => \App\Models\Building::inRandomOrder()->value('id')
         ];
     }
+
+    public function withActivities(int $count): OrganisationFactory
+    {
+        return $this->afterCreating(function (\App\Models\Organisation $organisation) use ($count) {
+            $activities = \App\Models\Activity::inRandomOrder()
+                ->take($count)
+                ->pluck('id');
+
+            $organisation->activities()->attach($activities);
+        });
+    }
 }

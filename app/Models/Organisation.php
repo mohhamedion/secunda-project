@@ -14,4 +14,9 @@ use Illuminate\Database\Eloquent\Model;
 class Organisation extends Model
 {
     use HasFactory;
+
+    public function activities(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class)->using(ActivityOrganisation::class);
+    }
 }

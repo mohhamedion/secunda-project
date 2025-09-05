@@ -13,6 +13,7 @@ class OrganisationSeeder extends Seeder
     public function run(): void
     {
         Organisation::factory()
+            ->withActivities(rand(0,10))
             ->count(200)
             ->create();
     }
