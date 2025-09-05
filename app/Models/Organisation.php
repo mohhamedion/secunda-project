@@ -4,19 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
  * @property string $name
- * @property string $phone_number
+ * @property PhoneNumber[] $phoneNumbers
  * @property int $building_id
  */
 class Organisation extends Model
 {
     use HasFactory;
 
-    public function activities(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    /**
+     * @return BelongsToMany
+     */
+    public function activities(): BelongsToMany
     {
         return $this->belongsToMany(Activity::class)->using(ActivityOrganisation::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function phoneNumbers(): HasMany
+    {
+        return $this->hasMany(PhoneNumber::class);
     }
 }

@@ -18,7 +18,6 @@ class OrganisationFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
-            'phone_number' => $this->faker->phoneNumber(),
             'building_id' => \App\Models\Building::inRandomOrder()->value('id')
         ];
     }
@@ -31,6 +30,16 @@ class OrganisationFactory extends Factory
                 ->pluck('id');
 
             $organisation->activities()->attach($activities);
+        });
+    }
+
+    public function withPhoneNumbers(int $count): OrganisationFactory
+    {
+        return $this->afterCreating(function (\App\Models\Organisation $organisation) use ($count) {
+            while ($count){
+                $organisation->phoneNumbers()->create(['phone_number' => $this->faker->phoneNumber()]);
+                $count--;
+            }
         });
     }
 }

@@ -14,6 +14,7 @@ class OrganisationSeeder extends Seeder
     {
         Organisation::factory()
             ->withActivities(rand(0,10))
+            ->withPhoneNumbers(rand(0,5))
             ->count(200)
             ->create();
     }
