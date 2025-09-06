@@ -35,6 +35,8 @@ class OrganisationController extends Controller
     }
 
     /**
+     * @param int $organisationId
+     * @return JsonResponse
      */
     public function show(int $organisationId): JsonResponse
     {
