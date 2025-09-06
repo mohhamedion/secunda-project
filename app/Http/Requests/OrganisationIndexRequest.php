@@ -21,10 +21,10 @@ class OrganisationIndexRequest extends FormRequest
             'building_id' => ['integer'],
             'activity_id' => ['integer'],
 
-            'min_lat' => ['float'],
-            'max_lat' => ['float'],
-            'min_long' => ['float'],
-            'max_long' => ['float'],
+            'min_lat' => ['numeric'],
+            'max_lat' => ['numeric'],
+            'min_long' => ['numeric'],
+            'max_long' => ['numeric'],
 
             'organisation_name' => ['string']
         ];
