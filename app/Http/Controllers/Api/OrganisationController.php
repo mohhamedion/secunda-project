@@ -32,7 +32,6 @@ class OrganisationController extends Controller
         return response()->json($this->organisationService->get($queryFilter));
     }
 
-
     /**
      */
     public function show(int $organisationId): JsonResponse
