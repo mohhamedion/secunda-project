@@ -34,3 +34,9 @@ migrate with seeds
 ```
 docker exec -it secunda_app php artisan migrate --seed
 ```
+
+Generate swagger doc
+```
+docker exec -it secunda_app php artisan l5-swagger:generate
+```
+
