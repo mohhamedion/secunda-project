@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\OrganisationController;
+use App\Http\Middleware\AccessKeyMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'organisations'], function () {
+Route::group(['prefix' => 'organisations', 'middleware' => AccessKeyMiddleware::class], function () {
     Route::get('/', [OrganisationController::class, 'index']);
     Route::get('/by-activity', [OrganisationController::class, 'getByActivity']);
 
