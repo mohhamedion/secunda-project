@@ -7,6 +7,7 @@ use App\Models\Organisation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class OrganisationService
 {
@@ -49,5 +50,32 @@ class OrganisationService
     public function show(int $organisationId): Model
     {
         return Organisation::query()->where('id', $organisationId)->with(['building', 'activities'])->firstOrFail();
+    }
+
+    /**
+     * @param string $activityName
+     * @param int $maxLevel
+     * @return array
+     */
+    public function getByActivity(string $activityName, int $maxLevel): array
+    {
+        return DB::select("
+        WITH RECURSIVE activity_tree AS (
+            SELECT activities.id, activities.name, activities.parent_activity_id, 1 as level
+            FROM activities
+            WHERE activities.name = :activityName
+            UNION ALL
+            SELECT activities.id, activities.name, activities.parent_activity_id, atree.level + 1
+            FROM activities
+            INNER JOIN activity_tree atree ON activities.parent_activity_id = atree.id
+            WHERE atree.level < :maxLevel
+        )
+        SELECT organisations.* FROM organisations
+        INNER JOIN activity_organisation ON organisations.id = activity_organisation.organisation_id
+        INNER JOIN activity_tree atree ON activity_organisation.activity_id = atree.id
+    ", [
+            'activityName' => $activityName,
+            'maxLevel' => $maxLevel
+        ]);
     }
 }

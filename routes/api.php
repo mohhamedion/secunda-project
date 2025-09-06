@@ -16,5 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'organisations'], function () {
     Route::get('/', [OrganisationController::class, 'index']);
+    Route::get('/by-activity', [OrganisationController::class, 'getByActivity']);
+
     Route::get('show/{organisationId}', [OrganisationController::class, 'show']);
 });
