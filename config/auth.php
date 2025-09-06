@@ -112,5 +112,5 @@ return [
 
     'password_timeout' => 10800,
 
-    'access_key' => env('ACCESS_KEY','')
+    'access_key' => env('APP_ACCESS_KEY','')
 ];
