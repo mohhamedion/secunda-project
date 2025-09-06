@@ -1,6 +1,13 @@
 # secunda-test-project
+
+Порт проекта по умолчанию 
+- 8005
+
 Статический ключ
 - x-access-key = 123123
+
+Ссылка документации 
+- http://localhost:8005/api/documentation
 
 Run docker
 ```
