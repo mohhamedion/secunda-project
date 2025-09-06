@@ -43,6 +43,7 @@ class OrganisationController extends Controller
     {
         $activityName = $request->input('activity_name');
         $maxLevel = $request->input('max_level', 3);
+
         return response()->json($this->organisationService->getByActivity(
             activityName: $activityName,
             maxLevel: $maxLevel
