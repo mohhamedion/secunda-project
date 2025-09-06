@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Dto\Organisation\QueryFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrganisationIndexRequest;
 use App\Services\OrganisationService;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class OrganisationController extends Controller
 {
@@ -15,41 +15,29 @@ class OrganisationController extends Controller
     }
 
     /**
-     * @param int $buildingId
-     * @return Collection
+     * @param OrganisationIndexRequest $request
+     * @return JsonResponse
      */
-    public function getByBuildingId(int $buildingId): Collection
+    public function index(OrganisationIndexRequest $request): JsonResponse
     {
         $queryFilter = new QueryFilter();
-        $queryFilter->buildingId = $buildingId;
+        $queryFilter->buildingId = $request->input('building_id',0);
+        $queryFilter->activityId = $request->input('activity_id',0);
 
-        return $this->organisationService->get($queryFilter);
+        $queryFilter->minLat = $request->input('min_lat',null);
+        $queryFilter->maxLat = $request->input('max_lat',null);
+        $queryFilter->minLong = $request->input('min_long', null);
+        $queryFilter->maxLong = $request->input('max_long',null);
+
+        return response()->json($this->organisationService->get($queryFilter));
     }
 
-    /**
-     * @param int $activityId
-     * @return Collection
-     */
-    public function getByActivityId(int $activityId): Collection
-    {
-        $queryFilter = new QueryFilter();
-        $queryFilter->activityId = $activityId;
-
-        return $this->organisationService->get($queryFilter);
-    }
 
     /**
-     * @param Request $request
-     * @return Collection
      */
-    public function getByRectangle(Request $request): Collection
+    public function show(int $organisationId): JsonResponse
     {
-        $queryFilter = new QueryFilter();
-        $queryFilter->minLat = $request->input('min_lat');
-        $queryFilter->maxLat = $request->input('max_lat');
-        $queryFilter->minLong = $request->input('min_long');
-        $queryFilter->maxLong = $request->input('max_long');
-
-        return $this->organisationService->get($queryFilter);
+        $organisation = $this->organisationService->show($organisationId);
+        return response()->json($organisation);
     }
 }
