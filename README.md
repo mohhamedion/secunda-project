@@ -22,3 +22,4 @@ migrate with seeds
 ```
 docker exec -it secunda_app php artisan migrate --seed
 ```
+# secunda-project
