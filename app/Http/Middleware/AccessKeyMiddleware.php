@@ -19,12 +19,13 @@ class AccessKeyMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->header('access_key')) {
-            throw new Exception("access_key required");
+        $accessKey = $request->header('x-access-key');
+        if (!$accessKey) {
+            throw new Exception("Access-token required");
         }
 
-        if ($request->header('access_key') !== config('auth.access_key')) {
-            throw new Exception("access_key incorrect");
+        if ($accessKey !== config('auth.access_key')) {
+            throw new Exception("Access-token incorrect");
         }
 
         return $next($request);

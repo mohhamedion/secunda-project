@@ -1,0 +1,311 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Organisation API",
+        "description": "API for managing and searching organisations",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/organisations": {
+            "get": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Get list of organisations with filtering",
+                "description": "List organisations with filtering\n\nCписок всех организаций находящихся в конкретном здании\nCписок всех организаций, которые относятся к указанному виду деятельности\nCписок организаций, которые находятся в заданном радиусе/прямоугольной области относительно указанной точки на карте\nПоиск организации по названию",
+                "operationId": "e21bb745864f08e45b44be7e154cf8e1",
+                "parameters": [
+                    {
+                        "name": "building_id",
+                        "in": "query",
+                        "description": "Filter by building ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "Filter by activity type ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 5
+                        }
+                    },
+                    {
+                        "name": "min_lat",
+                        "in": "query",
+                        "description": "Minimum latitude for area filter",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "example": 55.751244
+                        }
+                    },
+                    {
+                        "name": "max_lat",
+                        "in": "query",
+                        "description": "Maximum latitude for area filter",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "example": 55.761344
+                        }
+                    },
+                    {
+                        "name": "min_long",
+                        "in": "query",
+                        "description": "Minimum longitude for area filter",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "example": 37.618423
+                        }
+                    },
+                    {
+                        "name": "max_long",
+                        "in": "query",
+                        "description": "Maximum longitude for area filter",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "example": 37.628523
+                        }
+                    },
+                    {
+                        "name": "organisation_name",
+                        "in": "query",
+                        "description": "Search by organisation name",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Coffee Shop"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Organisation"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/organisations/by-activity": {
+            "get": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Get organisations by activity hierarchy",
+                "description": "Get organisations by activity hierarchy\n\nИскать организации по виду деятельности. Например, поиск по виду деятельности «Еда»,\nкоторая находится на первом уровне дерева, и чтобы нашлись все организации,\nкоторые относятся к видам деятельности, лежащим внутри.\nТ.е. в результатах поиска должны отобразиться организации с видом деятельности Еда, Мясная продукция, Молочная продукция.",
+                "operationId": "c53de035f91bbbeb258f9188f5512d4d",
+                "parameters": [
+                    {
+                        "name": "activity_name",
+                        "in": "query",
+                        "description": "Name of the parent activity to search by",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Food"
+                        }
+                    },
+                    {
+                        "name": "max_level",
+                        "in": "query",
+                        "description": "Maximum depth level in activity hierarchy to search",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 3,
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Organisation"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Activity name parameter is required"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/organisations/show/{organisationId}": {
+            "get": {
+                "tags": [
+                    "Organisations"
+                ],
+                "summary": "Get organisation by ID",
+                "description": "Get organisation by ID\n\nВывод информации об организации по её идентификатору",
+                "operationId": "4b6fe09e82b557bc66f198398bc2e6ad",
+                "parameters": [
+                    {
+                        "name": "organisationId",
+                        "in": "path",
+                        "description": "ID of organisation to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Organisation"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Organisation not found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "QueryFilter": {
+                "description": "Filter parameters for organisation search",
+                "properties": {
+                    "building_id": {
+                        "description": "ID of the building to filter organisations by",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "activity_id": {
+                        "description": "ID of the activity type to filter organisations by",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "min_lat": {
+                        "description": "Minimum latitude for geographical area filtering",
+                        "type": "number",
+                        "format": "float",
+                        "example": 55.751244
+                    },
+                    "max_lat": {
+                        "description": "Maximum latitude for geographical area filtering",
+                        "type": "number",
+                        "format": "float",
+                        "example": 55.761344
+                    },
+                    "min_long": {
+                        "description": "Minimum longitude for geographical area filtering",
+                        "type": "number",
+                        "format": "float",
+                        "example": 37.618423
+                    },
+                    "max_long": {
+                        "description": "Maximum longitude for geographical area filtering",
+                        "type": "number",
+                        "format": "float",
+                        "example": 37.628523
+                    },
+                    "organisation_name": {
+                        "description": "Name or part of the name to search organisations by",
+                        "type": "string",
+                        "example": "Coffee Shop"
+                    }
+                },
+                "type": "object"
+            },
+            "Organisation": {
+                "title": "Organisation",
+                "description": "Organisation entity",
+                "properties": {
+                    "id": {
+                        "description": "Unique identifier for the organisation",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "description": "Name of the organisation",
+                        "type": "string"
+                    },
+                    "building_id": {
+                        "description": "ID of the building where the organisation is located",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "description": "API Access Key",
+                "name": "x-access-key",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Organisations",
+            "description": "API Endpoints for Organisations"
+        }
+    ]
+}
