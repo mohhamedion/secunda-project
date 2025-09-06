@@ -1,14 +1,15 @@
 # secunda-test-project
 
-Порт проекта по умолчанию 
-- 8005
+- Ссылка на проект http://localhost:8005/
+- phpmyadmin http://localhost:8088/
 
 Статический ключ
 - x-access-key = 123123
 
-Ссылка документации 
+Ссылка на документацию 
 - http://localhost:8005/api/documentation
 
+## Запуск проекта
 Run docker
 ```
 docker compose up --build -d
