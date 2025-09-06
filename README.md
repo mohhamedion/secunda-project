@@ -1,3 +1,7 @@
+# secunda-test-project
+Статический ключ
+- x-access-key = 123123
+
 Run docker
 ```
 docker compose up --build -d
@@ -22,4 +26,3 @@ migrate with seeds
 ```
 docker exec -it secunda_app php artisan migrate --seed
 ```
-# secunda-project
