@@ -26,6 +26,7 @@ class OrganisationIndexRequest extends FormRequest
             'min_long' => ['float'],
             'max_long' => ['float'],
 
+            'organisation_name' => ['string']
         ];
     }
 }

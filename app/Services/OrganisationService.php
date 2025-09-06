@@ -35,6 +35,10 @@ class OrganisationService
             });
         }
 
+        if ($queryFilter->organisationName) {
+            $query->where('name', 'LIKE', "%$queryFilter->organisationName%");
+        }
+
         return $query->get();
     }
 

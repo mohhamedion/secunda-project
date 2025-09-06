@@ -33,4 +33,9 @@ class QueryFilter
      * @var float|null
      */
     public ?float $maxLong = null;
+
+    /**
+     * @var string|null
+     */
+    public ?string $organisationName = null;
 }

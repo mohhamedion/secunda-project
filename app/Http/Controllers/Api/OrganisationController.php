@@ -29,6 +29,8 @@ class OrganisationController extends Controller
         $queryFilter->minLong = $request->input('min_long', null);
         $queryFilter->maxLong = $request->input('max_long',null);
 
+        $queryFilter->organisationName = $request->input('organisation_name',null);
+
         return response()->json($this->organisationService->get($queryFilter));
     }
 
